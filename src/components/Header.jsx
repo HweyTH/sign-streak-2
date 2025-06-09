@@ -30,7 +30,7 @@ export default function Header() {
 
                     <div className="flex items-center space-x-4">
 
-                        <button className="w-10 h-10 bg-gray-900 rounded-full hover:bg-gray-800 transition-colors flex items-center justify-center" aria-label="Command">
+                        <button className="w-10 h-10 bg-black rounded-full hover:bg-gray-800 transition-colors flex items-center justify-center" aria-label="Command">
                             <svg className="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
                             </svg>
@@ -39,7 +39,7 @@ export default function Header() {
                         <div className="relative" ref={notifRef}>
                             <button
                                 onClick={() => setIsNotifOpen(!isNotifOpen)}
-                                className="w-10 h-10 bg-gray-900 rounded-full hover:bg-gray-800 transition-colors flex items-center justify-center"
+                                className="w-10 h-10 bg-black rounded-full hover:bg-gray-800 transition-colors flex items-center justify-center"
                                 aria-label="Notifications"
                             >
                                 <svg className="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -47,16 +47,16 @@ export default function Header() {
                                 </svg>
                             </button>
                             {isNotifOpen && (
-                                <div className="absolute right-0 mt-2 w-64 bg-gray-900 rounded-lg shadow-lg border border-gray-800 z-50">
-                                    <div className="p-4 border-b border-gray-800 text-gray-200 font-semibold">Notifications</div>
+                                <div className="absolute right-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-lg border border-gray-700 z-50">
+                                    <div className="p-4 border-b border-gray-700 text-gray-200 font-semibold">Notifications</div>
                                     <ul className="max-h-60 overflow-y-auto">
-                                        <li className="p-2 hover:bg-gray-800 transition-colors text-gray-300">I'm procrastinating</li>
+                                        <li className="p-2 hover:bg-gray-700 transition-colors text-gray-300">I'm procrastinating</li>
                                     </ul>
                                 </div>
                             )}
                         </div>
 
-                        <button className="w-10 h-10 bg-gray-900 rounded-full hover:bg-gray-800 transition-colors flex items-center justify-center" aria-label="User">
+                        <button className="w-10 h-10 bg-black rounded-full hover:bg-gray-800 transition-colors flex items-center justify-center" aria-label="User">
                             <svg className="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                             </svg>
