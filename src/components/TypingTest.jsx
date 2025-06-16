@@ -1,0 +1,94 @@
+"use client";
+import { useState, useRef, useEffect } from "react";
+import generatePrompt from "./generatePrompt";
+
+export default function TypingTest() {
+    // State variables
+    const [prompt, setPrompt] = useState("");
+    const [input, setInput] = useState("");
+    const [startTime, setStartTime] = useState(null);
+    const [wpm, setWpm] = useState(0);
+    const [accuracy, setAccuracy] = useState(100);
+    const [finished, setFinished] = useState(false);
+    const textareaRef = useRef();
+
+    // Load or Restart Test
+    const loadNewTest = () => {
+        setPrompt(generatePrompt());
+        setInput('');
+        setStartTime(null);
+        setWpm(0);
+        setAccuracy(100);
+        setFinished(false);
+        setTimeout(() => textareaRef.current?.focus(), 0);
+    };
+    useEffect(loadNewTest, []);
+
+    // Handle User Typing
+    const handleChange = (e) => {
+        const val = e.target.value;
+        if (!startTime) setStartTime(Date.now());
+        setInput(val);
+
+        // check if user has finished typing
+        if (val.trim() === prompt.trim()) {
+            const elapsedTime = (Date.now() - startTime) / 1000 / 60;
+            const words = val.trim().split(/\s+/).length;
+
+            // calcuate word-per-minute
+            setWpm(Math.round(words / elapsedTime));
+
+            // calcuate char-by-char accuracy
+            const correctChars = [...val].filter((char, i) => prompt[i] === char).length;
+            setAccuracy(Math.round((correctChars / prompt.length) * 100));
+            setFinished(true);
+        }
+    };
+
+    return (
+        <div className="relative w-full max-w-3xl mx-auto">
+            <pre className="font-mono text-lg">
+                {prompt.split('').map((char, i) => {
+                    let cls = 'text-gray-300';
+                    if (i < input.length) {
+                        cls = input[i] === char 
+                            ? 'text-green-400'
+                            : 'text-red-500 line-through';
+                    } else if (i === input.length && !finished) {
+                        cls = 'underline text-white';
+                    }
+                    return (
+                        <span key={i} className={cls}>
+                            {char}
+                        </span>
+                    )
+                })}
+            </pre>
+
+            <textarea
+                ref={textareaRef}
+                value={input}
+                onChange={handleChange}
+                disabled={finished}
+                className={`
+                    absolute top-0 left-0 w-full h-full bg-transparent text-transparent
+                    focus:outline-none resize-none
+                    `}
+                placeholder="Begin typing..."
+            />
+
+            {finished && (
+                <div className="mt-4 flex justify-between items-center">
+                    <div>
+                        <p className="text-xl font-semibold">WPM: {wpm}</p>
+                        <p className="text-lg text-gray-300">Accuracy: {accuracy}%</p>                    
+                    </div>
+
+                    <button onClick={loadNewTest} className="px-6 py-2 rounded-lg transition">
+                        Restart
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+}

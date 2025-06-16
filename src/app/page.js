@@ -18,7 +18,7 @@ export default function Home() {
             </button>
           </Link>
 
-          <Link href="">
+          <Link href="/sign-language-test">
             <button className="hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 border cursor-pointer">
               Sign Language Test
             </button>
