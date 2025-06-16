@@ -26,7 +26,7 @@ export default function TypingTest() {
 
     // Handle User Typing
     const handleChange = (e) => {
-        const val = e.target.value;
+        const val = e.target.value.replace(/\r?\n/g, '');
         if (!startTime) setStartTime(Date.now());
         setInput(val);
 
@@ -69,10 +69,16 @@ export default function TypingTest() {
                 ref={textareaRef}
                 value={input}
                 onChange={handleChange}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                    }
+                }}
                 disabled={finished}
                 className={`
                     absolute top-0 left-0 w-full h-full bg-transparent text-transparent
                     focus:outline-none resize-none
+                    ${finished ? 'pointer-events-none' : ''}
                     `}
                 placeholder="Begin typing..."
             />
@@ -84,7 +90,7 @@ export default function TypingTest() {
                         <p className="text-lg text-gray-300">Accuracy: {accuracy}%</p>                    
                     </div>
 
-                    <button onClick={loadNewTest} className="px-6 py-2 rounded-lg transition">
+                    <button onClick={loadNewTest} className="px-6 py-2 hover:bg-gray-500 rounded-lg transition cursor-pointer">
                         Restart
                     </button>
                 </div>
