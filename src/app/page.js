@@ -12,7 +12,7 @@ export default function Home() {
           Dare thyself to this trial of fingers and mind. A crucible of will and skill, where hands speak not words, but in sacred signs.
         </p>
         <div className="flex gap-4 justify-center">
-          <Link href="">
+          <Link href="/regular-test">
             <button className="hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 border cursor-pointer">
               Regular Typing Test
             </button>
