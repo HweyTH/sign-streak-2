@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import generatePrompt from "./generatePrompt";
+import TestConfig from "./TestConfig";
 
 export default function TypingTest() {
     // State variables
@@ -10,6 +11,11 @@ export default function TypingTest() {
     const [wpm, setWpm] = useState(0);
     const [accuracy, setAccuracy] = useState(100);
     const [finished, setFinished] = useState(false);
+    const [config, setConfig] = useState({
+        time: 'infinite', 
+        wordCount: 25, 
+        difficulty: 'medium'
+    })
     const textareaRef = useRef();
 
     // Load or Restart Test
@@ -24,6 +30,12 @@ export default function TypingTest() {
     };
     useEffect(loadNewTest, []);
 
+    // Handle Test Config Changes
+    const handleConfigChange = (newConfig) => {
+        setConfig(newConfig);
+        loadNewTest();
+    };
+
     // Handle User Typing
     const handleChange = (e) => {
         const val = e.target.value.replace(/\r?\n/g, '');
@@ -31,7 +43,7 @@ export default function TypingTest() {
         setInput(val);
 
         // check if user has finished typing
-        if (val.trim() === prompt.trim()) {
+        if (val.length >= prompt.length) {
             const elapsedTime = (Date.now() - startTime) / 1000 / 60;
             const words = val.trim().split(/\s+/).length;
 
@@ -46,7 +58,13 @@ export default function TypingTest() {
     };
 
     return (
-        <div className="relative w-full max-w-3xl mx-auto">
+        <div className="w-full max-w-4xl mx-auto">
+            <div className="flex justify-left">
+                <TestConfig onConfigChange={handleConfigChange} />
+            </div>
+
+            
+            
             <pre className="font-mono text-lg">
                 {prompt.split('').map((char, i) => {
                     let cls = 'text-gray-300';
@@ -79,7 +97,8 @@ export default function TypingTest() {
                     absolute top-0 left-0 w-full h-full bg-transparent text-transparent
                     focus:outline-none resize-none
                     ${finished ? 'pointer-events-none' : ''}
-                    `}
+                `}
+                spellCheck={false}
                 placeholder="Begin typing..."
             />
 
