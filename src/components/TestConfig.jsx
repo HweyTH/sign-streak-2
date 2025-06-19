@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { ClockIcon, PencilIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 
 export default function TestConfig({ onConfigChange}) {
     const [time, setTime] = useState('infinite');
@@ -72,13 +73,14 @@ export default function TestConfig({ onConfigChange}) {
     ]
 
     return (
-        <div className="flex items-cetner space-x-4 mb-6">
+        <div className="flex items-center space-x-4 mb-6"> 
             <div className="relative flex space-x-2" ref={(el) => dropdownRefs.current['time'] = el}>
                 {/* Time Dropdown */}
                 <button
                     onClick={() => toggleDropdown('time')}
                     className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
                 >
+                    <ClockIcon className="w-4 h-4 text-gray-400"/>
                     <span className="text-gray-300 text-sm">Time</span>
                 </button>
 
@@ -88,9 +90,8 @@ export default function TestConfig({ onConfigChange}) {
                             <button
                                 key={option.value}
                                 onClick={() => handleTimeChange(option.value)}
-                                
                             >
-
+                                {option.label}
                             </button>
                         ))}
                     </div>
@@ -101,6 +102,7 @@ export default function TestConfig({ onConfigChange}) {
                     onClick={() => toggleDropdown('wordCount')}
                     className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
                 >
+                    <PencilIcon className="w-4 h-4 text-gray-400"/>
                     <span className="text-gray-300 text-sm">Word Count</span>
                 </button>
 
@@ -115,6 +117,7 @@ export default function TestConfig({ onConfigChange}) {
                     onClick={() => toggleDropdown('difficulty')}
                     className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
                 >
+                    <AdjustmentsVerticalIcon className="w-4 h-4 text-gray-400"/>
                     <span className="text-gray-300 text-sm">Difficulty</span>
                 </button>
 
@@ -123,6 +126,8 @@ export default function TestConfig({ onConfigChange}) {
                         
                     </div>
                 )}
+
+                <div className="h-12 border-l border-gray-600"></div>
             </div>
         </div>
     );

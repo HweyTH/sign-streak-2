@@ -1,5 +1,7 @@
 "use client";
 
+import { EnvelopeIcon, CodeBracketIcon, UserIcon, ChatBubbleLeftRightIcon, InformationCircleIcon, DocumentTextIcon, ShieldCheckIcon } from '@heroicons/react/16/solid';
+
 export default function Footer() {
 
     return (
@@ -7,34 +9,41 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div className="flex justify-between items-center">
                     <span className="flex space-x-4">
-                        <a href="https://github.com/HweyTH/sign-streak-2" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors text-xs">
-                            Github
+                        <a href="#" target='_blank' rel='noopener noreferrer' className='flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm'>
+                            <InformationCircleIcon className="w-4 h-4"/>
+                            <span>About</span>
                         </a>
 
-                        <a href="mailto:thhuy1101@gmail.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors text-xs">
-                            Email
+                        <a href="https://github.com/HweyTH/sign-streak-2" target="_blank" rel="noopener noreferrer" className="flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm">
+                            <CodeBracketIcon className="w-4 h-4"/>
+                            <span>Github</span>
                         </a>
 
-                        <a href="https://www.linkedin.com/in/ghuythai" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors text-xs">
-                            Linkedin
+                        <a href="mailto:thhuy1101@gmail.com" target="_blank" rel="noopener noreferrer" className="flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm">
+                            <EnvelopeIcon className="w-4 h-4"/>
+                            <span>Email</span>
                         </a>
 
-                        <a href="https://discord.com/" target="_blank" rel="noopener noreferrer" className='text-gray-400 hover:text-white transition-colors text-xs'>
-                            Discord
+                        <a href="https://www.linkedin.com/in/ghuythai" target="_blank" rel="noopener noreferrer" className="flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm">
+                            <UserIcon className="w-4 h-4"/>
+                            <span>Linkedin</span>
                         </a>
 
-                        <a href="#" target="_blank" rel="noopener noreferrer" className='text-gray-400 hover:text-white transition-colors text-xs'>
-                            Terms of Service
+                        <a href="https://discord.com/" target="_blank" rel="noopener noreferrer" className='flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm'>
+                            <ChatBubbleLeftRightIcon className="w-4 h-4"/>
+                            <span>Discord</span>
                         </a>
 
-                        <a href="#" target="_blank" rel="noopener noreferrer" className='text-gray-400 hover:text-white transition-colors text-xs'>
-                            Privacy
+                        <a href="#" target="_blank" rel="noopener noreferrer" className='flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm'>
+                            <DocumentTextIcon className="w-4 h-4"/>
+                            <span>Terms of Service</span>
+                        </a>
+
+                        <a href="#" target="_blank" rel="noopener noreferrer" className='flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm'>
+                            <ShieldCheckIcon className="w-4 h-4"/>
+                            <span>Privacy</span>
                         </a>
                     </span>
-
-                    <div>
-                        
-                    </div>
 
                     
                 </div>

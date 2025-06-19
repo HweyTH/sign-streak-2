@@ -63,57 +63,57 @@ export default function TypingTest() {
                 <TestConfig onConfigChange={handleConfigChange} />
             </div>
 
-            
-            
-            <pre className="font-mono text-lg">
-                {prompt.split('').map((char, i) => {
-                    let cls = 'text-gray-300';
-                    if (i < input.length) {
-                        cls = input[i] === char 
-                            ? 'text-green-400'
-                            : 'text-red-500 line-through';
-                    } else if (i === input.length && !finished) {
-                        cls = 'underline text-white';
-                    }
-                    return (
-                        <span key={i} className={cls}>
-                            {char}
-                        </span>
-                    )
-                })}
-            </pre>
+            <div className="relative">
+                <pre className="font-mono text-lg">
+                    {prompt.split('').map((char, i) => {
+                        let cls = 'text-gray-300';
+                        if (i < input.length) {
+                            cls = input[i] === char 
+                                ? 'text-green-400'
+                                : 'text-red-500 line-through';
+                        } else if (i === input.length && !finished) {
+                            cls = 'underline text-white';
+                        }
+                        return (
+                            <span key={i} className={cls}>
+                                {char}
+                            </span>
+                        )
+                    })}
+                </pre>
 
-            <textarea
-                ref={textareaRef}
-                value={input}
-                onChange={handleChange}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                    }
-                }}
-                disabled={finished}
-                className={`
-                    absolute top-0 left-0 w-full h-full bg-transparent text-transparent
-                    focus:outline-none resize-none
-                    ${finished ? 'pointer-events-none' : ''}
-                `}
-                spellCheck={false}
-                placeholder="Begin typing..."
-            />
+                <textarea
+                    ref={textareaRef}
+                    value={input}
+                    onChange={handleChange}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                        }
+                    }}
+                    disabled={finished}
+                    className={`
+                        absolute top-0 left-0 w-full h-full bg-transparent text-transparent
+                        focus:outline-none resize-none
+                        ${finished ? 'pointer-events-none' : ''}
+                    `}
+                    spellCheck={false}
+                    placeholder="Begin typing..."
+                />
 
-            {finished && (
-                <div className="mt-4 flex justify-between items-center">
-                    <div>
-                        <p className="text-xl font-semibold">WPM: {wpm}</p>
-                        <p className="text-lg text-gray-300">Accuracy: {accuracy}%</p>                    
+                {finished && (
+                    <div className="mt-4 flex justify-between items-center">
+                        <div>
+                            <p className="text-xl font-semibold">WPM: {wpm}</p>
+                            <p className="text-lg text-gray-300">Accuracy: {accuracy}%</p>                    
+                        </div>
+
+                        <button onClick={loadNewTest} className="px-6 py-2 hover:bg-gray-500 rounded-lg transition cursor-pointer">
+                            Restart
+                        </button>
                     </div>
-
-                    <button onClick={loadNewTest} className="px-6 py-2 hover:bg-gray-500 rounded-lg transition cursor-pointer">
-                        Restart
-                    </button>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 }
