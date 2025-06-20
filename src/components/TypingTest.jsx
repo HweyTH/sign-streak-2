@@ -64,7 +64,7 @@ export default function TypingTest() {
             </div>
 
             <div className="relative">
-                <pre className="font-mono text-lg">
+                <pre className="font-mono text-lg whitespace-pre-wrap break-words overflow-hidden">
                     {prompt.split('').map((char, i) => {
                         let cls = 'text-gray-300';
                         if (i < input.length) {
@@ -94,7 +94,8 @@ export default function TypingTest() {
                     disabled={finished}
                     className={`
                         absolute top-0 left-0 w-full h-full bg-transparent text-transparent
-                        focus:outline-none resize-none
+                        focus:outline-none resize-none font-mono text-lg 
+                        whitespace-pre-wrap break-words overflow-hidden
                         ${finished ? 'pointer-events-none' : ''}
                     `}
                     spellCheck={false}

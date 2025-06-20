@@ -83,20 +83,7 @@ export default function TestConfig({ onConfigChange}) {
                     <ClockIcon className="w-4 h-4 text-gray-400"/>
                     <span className="text-gray-300 text-sm">Time</span>
                 </button>
-
-                {activeDropdown === 'time' && (
-                    <div>
-                        {timeOptions.map((option) => (
-                            <button
-                                key={option.value}
-                                onClick={() => handleTimeChange(option.value)}
-                            >
-                                {option.label}
-                            </button>
-                        ))}
-                    </div>
-                )}
-
+                
                 {/* Word Count Dropdown */}
                 <button
                     onClick={() => toggleDropdown('wordCount')}
@@ -105,12 +92,6 @@ export default function TestConfig({ onConfigChange}) {
                     <PencilIcon className="w-4 h-4 text-gray-400"/>
                     <span className="text-gray-300 text-sm">Word Count</span>
                 </button>
-
-                {activeDropdown === 'wordCount' && (
-                    <div>
-                        
-                    </div>
-                )}
 
                 {/* Difficulty Level Dropdown */}
                 <button
@@ -121,13 +102,57 @@ export default function TestConfig({ onConfigChange}) {
                     <span className="text-gray-300 text-sm">Difficulty</span>
                 </button>
 
-                {activeDropdown === 'difficulty' && (
-                    <div>
-                        
-                    </div>
-                )}
+                <div className="h-10 border-l border-gray-600"></div>
 
-                <div className="h-12 border-l border-gray-600"></div>
+                <div className="flex items-center space-x-2">
+                    {activeDropdown === 'time' && (
+                        <div>
+                            {timeOptions.map((option) => (
+                                <button
+                                    key={option.value}
+                                    onClick={() => handleTimeChange(option.value)}
+                                    className={`px-3 py-1 rounded-md transition-colors ${
+                                        time === option.value ? 'bg-gray-700 text-white' : 'text-gray-400 hover:bg-gray-800'
+                                    }`}
+                                >
+                                    {option.label}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    {activeDropdown === 'wordCount' && (
+                        <div>
+                            {wordCountOptions.map((option) => (
+                                <button
+                                    key={option.value}
+                                    onClick={() => handleWordCountChange(option.value)}
+                                    className={`px-3 py-1 rounded-md transition-colors ${
+                                        wordCount === option.value ? 'bg-gray-700 text-white' : 'text-gray-400 hover:bg-gray-800'
+                                    }`}
+                                >
+                                    {option.label}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    {activeDropdown === 'difficulty' && (
+                        <div>
+                            {difficultyOptions.map((option) => (
+                                <button
+                                    key={option.value}
+                                    onClick={() => handleDifficultyChange(option.value)}
+                                    className={`px-3 py-1 rounded-md transition-colors ${
+                                        difficulty === option.value ? 'bg-gray-700 text-white' : 'text-gray-400 hover:bg-gray-800'
+                                    }`}
+                                >
+                                    {option.label}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
