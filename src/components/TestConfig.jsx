@@ -1,54 +1,53 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { ClockIcon, PencilIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 
 export default function TestConfig({ onConfigChange}) {
-    const [time, setTime] = useState('infinite');
+    const [time, setTime] = useState('60');
     const [wordCount, setWordCount] = useState(25);
     const [difficulty, setDifficulty] = useState('medium');
-    const [activeDropdown, setActiveDropdown] = useState(null);
+
+    // default dropdown to time
+    const [activeDropdown, setActiveDropdown] = useState('time');
 
     const dropdownRefs = useRef({});
 
     // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (activeDropdown && dropdownRefs.current[activeDropdown] && !dropdownRefs.current[activeDropdown].contains(event.target)) {
-                setActiveDropdown(null);
-            }
-        };
+    // useEffect(() => {
+    //     const handleClickOutside = (event) => {
+    //         if (activeDropdown && dropdownRefs.current[activeDropdown] && !dropdownRefs.current[activeDropdown].contains(event.target)) {
+    //             setActiveDropdown(null);
+    //         }
+    //     };
 
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-    }, [activeDropdown])
+    //     document.addEventListener('mousedown', handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleClickOutside);
+    //     }
+    // }, [activeDropdown])
 
     // Handle test time configuration
     const handleTimeChange = (newTime) => {
         setTime(newTime);
         onConfigChange({ time: newTime, wordCount, difficulty});
-        setActiveDropdown(null);
     }
 
     // Handle word count configuration
     const handleWordCountChange = (newWordCount) => {
         setWordCount(newWordCount);
         onConfigChange({ time, wordCount: newWordCount, difficulty});
-        setActiveDropdown(null);
     }
 
     // Handle difficulty configuration
     const handleDifficultyChange = (newDifficulty) => {
         setDifficulty(newDifficulty);
         onConfigChange({ time, wordCount, difficulty: newDifficulty});
-        setActiveDropdown(null);
     }
 
     // Toggle Dropdown
     const toggleDropdown = (dropdown) => {
-        setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+        setActiveDropdown(dropdown);
     }
 
     const timeOptions = [
@@ -67,9 +66,10 @@ export default function TestConfig({ onConfigChange}) {
     ]
     
     const difficultyOptions = [
-        {value: 'easy', label: 'Easy'},
-        {value: 'medium', label: 'Medium'},
-        {value: 'hard', label: 'Hard'},
+        {value: 'easy', label: 'Gental Gale'},
+        {value: 'medium', label: 'Balanced Trial'},
+        {value: 'hard', label: 'Iron Oath'},
+        {value: 'insane', label: 'Wyrm Wrath'}
     ]
 
     return (

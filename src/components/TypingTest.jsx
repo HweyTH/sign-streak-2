@@ -12,7 +12,7 @@ export default function TypingTest() {
     const [accuracy, setAccuracy] = useState(100);
     const [finished, setFinished] = useState(false);
     const [config, setConfig] = useState({
-        time: 'infinite', 
+        time: '60', 
         wordCount: 25, 
         difficulty: 'medium'
     })
@@ -58,7 +58,7 @@ export default function TypingTest() {
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto">
+        <div className="w-full max-w-5xl mx-auto">
             <div className="flex justify-left">
                 <TestConfig onConfigChange={handleConfigChange} />
             </div>

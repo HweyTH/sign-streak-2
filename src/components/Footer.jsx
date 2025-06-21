@@ -1,6 +1,8 @@
 "use client";
 
-import { EnvelopeIcon, CodeBracketIcon, UserIcon, ChatBubbleLeftRightIcon, InformationCircleIcon, DocumentTextIcon, ShieldCheckIcon } from '@heroicons/react/16/solid';
+import { EnvelopeIcon, InformationCircleIcon, DocumentTextIcon, ShieldCheckIcon } from '@heroicons/react/16/solid';
+import { GitForkIcon } from 'lucide-react';
+import { SiGithub, SiLinkedin, SiDiscord} from 'react-icons/si'
 
 export default function Footer() {
 
@@ -15,7 +17,7 @@ export default function Footer() {
                         </a>
 
                         <a href="https://github.com/HweyTH/sign-streak-2" target="_blank" rel="noopener noreferrer" className="flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm">
-                            <CodeBracketIcon className="w-4 h-4"/>
+                            <SiGithub className="w-4 h-4"/>
                             <span>Github</span>
                         </a>
 
@@ -25,12 +27,12 @@ export default function Footer() {
                         </a>
 
                         <a href="https://www.linkedin.com/in/ghuythai" target="_blank" rel="noopener noreferrer" className="flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm">
-                            <UserIcon className="w-4 h-4"/>
+                            <SiLinkedin className="w-4 h-4"/>
                             <span>Linkedin</span>
                         </a>
 
                         <a href="https://discord.com/" target="_blank" rel="noopener noreferrer" className='flex space-x-1 text-gray-400 hover:text-white transition-colors text-sm'>
-                            <ChatBubbleLeftRightIcon className="w-4 h-4"/>
+                            <SiDiscord className="w-4 h-4"/>
                             <span>Discord</span>
                         </a>
 
@@ -45,6 +47,10 @@ export default function Footer() {
                         </a>
                     </span>
 
+                    <button className='flex items-center space-x-1 text-gray-400 hover:text-white transition-colors text-sm rounded-md'>
+                        <GitForkIcon className="w-4 h-4"/>
+                        <span>v0.1.0</span>
+                    </button>
                     
                 </div>
             </div>
