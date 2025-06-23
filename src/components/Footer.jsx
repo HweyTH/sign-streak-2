@@ -5,11 +5,11 @@ import { GitForkIcon } from 'lucide-react';
 import { SiGithub, SiLinkedin, SiDiscord} from 'react-icons/si'
 
 import About from './About';
+import aboutContent from '../content/aboutContent'
 import { useState } from 'react';
 
 export default function Footer() {
     const [aboutOpen, setAboutOpen] = useState(false);
-    const aboutDescription = "This is a test run";
 
     return (
         <>
@@ -64,7 +64,7 @@ export default function Footer() {
             <About 
                 open={aboutOpen}
                 onClose={() => setAboutOpen(false)}
-                description={aboutDescription}
+                description={aboutContent}
             />
         </>
     );
