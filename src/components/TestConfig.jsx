@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { ClockIcon, PencilIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 
-export default function TestConfig({ onConfigChange}) {
+export default function TestConfig({ onConfigChange, onExtremeMode }) {
     const [time, setTime] = useState('60');
     const [wordCount, setWordCount] = useState(25);
     const [difficulty, setDifficulty] = useState('medium');
@@ -42,7 +42,11 @@ export default function TestConfig({ onConfigChange}) {
     // Handle difficulty configuration
     const handleDifficultyChange = (newDifficulty) => {
         setDifficulty(newDifficulty);
-        onConfigChange({ time, wordCount, difficulty: newDifficulty});
+        if (newDifficulty === 'insane') {
+            onExtremeMode();
+        } else {
+            onConfigChange({ time, wordCount, difficulty: newDifficulty});
+        }
     }
 
     // Toggle Dropdown

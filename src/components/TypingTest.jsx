@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import generatePrompt from "./generatePrompt";
 import TestConfig from "./TestConfig";
+import ExtremeMode from "./ExtremeMode";
 
 export default function TypingTest() {
     // State variables
@@ -11,6 +12,7 @@ export default function TypingTest() {
     const [wpm, setWpm] = useState(0);
     const [accuracy, setAccuracy] = useState(100);
     const [finished, setFinished] = useState(false);
+    const [isExtremeMode, setIsExtremeMode] = useState(false);
     const [config, setConfig] = useState({
         time: '60', 
         wordCount: 25, 
@@ -57,10 +59,28 @@ export default function TypingTest() {
         }
     };
 
+    // handle extreme mode
+    const handleExtremeMode = () => {
+        setIsExtremeMode(true);
+    }
+
+    // handle game over (extreme mode)
+    const handleGameOver = (finalScore) => {
+        setIsExtremeMode(false);
+        // TODO: Make a modal to show the final score and leaderboard ranking
+    }
+
+    if (isExtremeMode) {
+        return <ExtremeMode onGameOver={handleGameOver} />;
+    }
+
     return (
         <div className="w-full max-w-5xl mx-auto">
             <div className="flex justify-left">
-                <TestConfig onConfigChange={handleConfigChange} />
+                <TestConfig 
+                onConfigChange={handleConfigChange} 
+                onExtremeMode={handleExtremeMode}
+                />
             </div>
 
             <div className="relative">
