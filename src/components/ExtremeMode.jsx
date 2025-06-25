@@ -20,6 +20,8 @@ export default function ExtremeMode({ onGameOver }) {
     const [score, setScore] = useState(0);
     const [interval, setInterval] = useState(INITIAL_INTERVAL);
     const [level, setLevel] = useState(1);
+    const [health, setHealth] = useState(100);
+    const [gameActive, setGameActive] = useState(true);
 
     // generate a random position for the word within the viewport
     const getRandomPosition = () => ({
@@ -36,21 +38,24 @@ export default function ExtremeMode({ onGameOver }) {
 
     // add new word
     const addWord = useCallback(() => {
+        if (!gameActive) return;
+
         const newWord = {
-            id: Date.now(),
+            id: crypto.randomUUID(),
             text: getRandomWord(),
             ...getRandomPosition(),
             createdAt: Date.now()
         };
+
         setWords(prev => [...prev, newWord])
-    }, [getRandomWord])
+    }, [getRandomWord, gameActive])
     
 
     // handle word completion
     const handleWordComplete = (completedWord) => {
         setWords(prev => prev.filter(word => word.text !== completedWord));
         setScore(prev => prev + completedWord.length * 10);
-        setInput();
+        setInput('');
 
         // Increase level every 5 successful words
         if (score > level * 500) {
@@ -61,28 +66,42 @@ export default function ExtremeMode({ onGameOver }) {
 
     // check for expired words
     useEffect(() => {
+        if (!gameActive) return;
+
         const checkExpiredWords = () => {
             const now = Date.now();
-            const expiredWords = words.filter(word => now - word.createAt > FADE_DURATION);
-            // TO-DO: Implement a health system for game over
-        }
+            const expiredWords = words.filter(word => now - word.createdAt > FADE_DURATION);
+            
+            if(expiredWords.length > 0) {
+                setHealth(prev => {
+
+                });
+                
+                // remove expired words
+                setWords(prev => prev.filter(word => now - word.createdAt <= FADE_DURATION));
+            }
+        };
 
         const timer = setInterval(checkExpiredWords, 100);
         return () => clearInterval(timer);
-    }, [words, score, onGameOver])
+    }, [words, score, onGameOver, gameActive])
 
     // add new words periodically
     useEffect(() => {
+        if (!gameActive) return;
+
         const timer = setInterval(addWord, interval);
         return () => clearInterval(timer);
-    }, [interval, addWord])
+    }, [interval, addWord, gameActive])
 
     // handle input
     const handleInput = (e) => {
-        setInput(e.target.value);
+        if (!gameActive) return;
+
+        const value = e.target.value;
         setInput(value);
 
-        const matchedWord = null;
+        const matchedWord = words.find(word => word.text === value);
         if (matchedWord) {
             handleWordComplete(matchedWord.text);
         }
@@ -93,14 +112,18 @@ export default function ExtremeMode({ onGameOver }) {
             {/* Starfield Background */}
             <StarField
                 speed={0.5}
-                width={window.innerWidth}
-                height={window.innerHeight}             
+                width={typeof window !== 'undefined' ? window.innerWidth : 1920}
+                height={typeof window !== 'undefined' ? window.innerHeight : 1080}             
             />
 
             {/* Score and Level */}
-            <div className="absolute top-6 left-6 text-white">
-                <div>Score: {score}</div>
-                <div>Level: {level}</div>
+            <div className="absolute top-6 left-6 text-white space-y-2">
+                <div className="text-xil font-bold">Score: {score}</div>
+                <div className="text-lg">Level: {level}</div>
+                <div className="text-lg">
+                    Health:
+                    <span className={health > 50 ? 'text-green-400' : health > 25 ? 'text-yellow-400' : 'text-red-400'}></span>
+                </div>
             </div>
 
             {/* Words */}
@@ -124,7 +147,18 @@ export default function ExtremeMode({ onGameOver }) {
                 type="text"
                 value={input}
                 onChange={handleInput}
-                className=""
+                disabled={!gameActive}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                    }
+                }}
+                className={`
+                    absolute top-0 left-0 w-full h-full bg-transparent
+                    text-transparent focus:outline-none font-mono
+                    ${!gameActive ? 'pointer-events-none' : ''}
+                    `}
+                spellCheck={false}
                 autoFocus
             />
         </div>

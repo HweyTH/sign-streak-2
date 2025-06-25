@@ -119,7 +119,6 @@ export default function TypingTest() {
                         ${finished ? 'pointer-events-none' : ''}
                     `}
                     spellCheck={false}
-                    placeholder="Begin typing..."
                 />
 
                 {finished && (
