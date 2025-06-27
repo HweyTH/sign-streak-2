@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { StarField } from "starfield-react";
 
 const INITIAL_INTERVAL = 3000;
@@ -16,12 +16,24 @@ const wordLists = {
 
 export default function ExtremeMode({ onGameOver }) {
     const [words, setWords] = useState([]);
+    const [wordsCompleted, setWordsCompleted] = useState(0);
     const [input, setInput] = useState('');
     const [score, setScore] = useState(0);
     const [interval, setInterval] = useState(INITIAL_INTERVAL);
     const [level, setLevel] = useState(1);
     const [health, setHealth] = useState(100);
     const [gameActive, setGameActive] = useState(true);
+
+    const levelRef = useRef(level);
+    const gameActiveRef = useRef(gameActive);
+
+    useEffect(() => {
+        levelRef.current = level;
+    }, [level]);
+
+    useEffect(() => {
+        gameActiveRef.current = gameActive;
+    }, [gameActive]);
 
     // generate a random position for the word within the viewport
     const getRandomPosition = () => ({
@@ -31,14 +43,15 @@ export default function ExtremeMode({ onGameOver }) {
 
     // get a random word based on level
     const getRandomWord = useCallback(() => {
-        const difficulty = level < 3 ? 'easy' : level < 6 ? 'medium' : 'hard';
+        const currentLevel = levelRef.current;
+        const difficulty = currentLevel < 3 ? 'easy' : currentLevel < 6 ? 'medium' : 'hard';
         const words = wordLists[difficulty];
         return words[Math.floor(Math.random() * words.length)];
-    }, [level])
+    }, [])
 
     // add new word
     const addWord = useCallback(() => {
-        if (!gameActive) return;
+        if (!gameActiveRef.current) return;
 
         const newWord = {
             id: crypto.randomUUID(),
@@ -48,21 +61,23 @@ export default function ExtremeMode({ onGameOver }) {
         };
 
         setWords(prev => [...prev, newWord])
-    }, [getRandomWord, gameActive])
+    }, [getRandomWord])
     
 
     // handle word completion
     const handleWordComplete = (completedWord) => {
-        setWords(prev => prev.filter(word => word.text !== completedWord));
-        setScore(prev => prev + completedWord.length * 10);
+        setWords(curr => curr.filter(word => word.text !== completedWord));
+        setScore(curr => curr + completedWord.length * 10);
         setInput('');
-
-        // Increase level every 5 successful words
-        if (score > level * 500) {
-            setLevel(prev => prev + 1);
-            setInterval(prev => Math.max(MIN_INTERVAL, prev - INTERVAL_DESCREASE_RATE));
-        }
-    }
+        setWordsCompleted(curr => {
+            const newCount = curr + 1;
+            if (curr % 5 === 0) {
+                setLevel(curr => curr + 1);
+                setInterval(curr => Math.max(MIN_INTERVAL, curr - INTERVAL_DESCREASE_RATE));
+            }
+            return newCount;
+        });
+    };
 
     // check for expired words
     useEffect(() => {
@@ -73,10 +88,7 @@ export default function ExtremeMode({ onGameOver }) {
             const expiredWords = words.filter(word => now - word.createdAt > FADE_DURATION);
             
             if(expiredWords.length > 0) {
-                setHealth(prev => {
-
-                });
-                
+                setHealth(current => Math.max(0, current - (expiredWords.length * 10)) );
                 // remove expired words
                 setWords(prev => prev.filter(word => now - word.createdAt <= FADE_DURATION));
             }
@@ -84,7 +96,7 @@ export default function ExtremeMode({ onGameOver }) {
 
         const timer = setInterval(checkExpiredWords, 100);
         return () => clearInterval(timer);
-    }, [words, score, onGameOver, gameActive])
+    }, [gameActive, words])
 
     // add new words periodically
     useEffect(() => {
@@ -92,7 +104,7 @@ export default function ExtremeMode({ onGameOver }) {
 
         const timer = setInterval(addWord, interval);
         return () => clearInterval(timer);
-    }, [interval, addWord, gameActive])
+    }, [interval, gameActive])
 
     // handle input
     const handleInput = (e) => {
@@ -106,6 +118,13 @@ export default function ExtremeMode({ onGameOver }) {
             handleWordComplete(matchedWord.text);
         }
     };
+
+    useEffect(() => {
+        if (health <= 0) {
+            setGameActive(false);
+            onGameOver(score);
+        }
+    }, [health, onGameOver, score]);
 
     return (
         <div className="fixed inset-0 w-full h-full overflow-hidden">
@@ -122,7 +141,7 @@ export default function ExtremeMode({ onGameOver }) {
                 <div className="text-lg">Level: {level}</div>
                 <div className="text-lg">
                     Health:
-                    <span className={health > 50 ? 'text-green-400' : health > 25 ? 'text-yellow-400' : 'text-red-400'}></span>
+                    <span className={health > 50 ? 'text-green-400' : health > 25 ? 'text-yellow-400' : 'text-red-400'}>{health}</span>
                 </div>
             </div>
 
@@ -151,6 +170,10 @@ export default function ExtremeMode({ onGameOver }) {
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
+                    }
+                    if (e.key === 'Escape') {
+                        setGameActive(false);
+                        onGameOver(score);
                     }
                 }}
                 className={`

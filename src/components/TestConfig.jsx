@@ -77,7 +77,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
     ]
 
     return (
-        <div className="flex items-center space-x-4 mb-6"> 
+        <div className="flex items-center space-x-4 mb-6 rounded-lg p-1 border border-gray-700/50"> 
             <div className="relative flex space-x-2" ref={(el) => dropdownRefs.current['time'] = el}>
                 {/* Time Dropdown */}
                 <button
@@ -85,7 +85,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                     className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
                 >
                     <ClockIcon className="w-4 h-4 text-gray-400"/>
-                    <span className="text-gray-300 text-sm">Time</span>
+                    <span className="text-gray-300 text-xs">Time</span>
                 </button>
                 
                 {/* Word Count Dropdown */}
@@ -94,7 +94,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                     className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
                 >
                     <PencilIcon className="w-4 h-4 text-gray-400"/>
-                    <span className="text-gray-300 text-sm">Word Count</span>
+                    <span className="text-gray-300 text-xs">Word Count</span>
                 </button>
 
                 {/* Difficulty Level Dropdown */}
@@ -103,7 +103,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                     className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
                 >
                     <AdjustmentsVerticalIcon className="w-4 h-4 text-gray-400"/>
-                    <span className="text-gray-300 text-sm">Difficulty</span>
+                    <span className="text-gray-300 text-xs">Difficulty</span>
                 </button>
 
                 <div className="h-10 border-l border-gray-600"></div>
@@ -116,7 +116,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                                     key={option.value}
                                     onClick={() => handleTimeChange(option.value)}
                                     className={`px-3 py-1 rounded-md transition-colors ${
-                                        time === option.value ? 'bg-gray-700 text-white' : 'text-gray-400 hover:bg-gray-800'
+                                        time === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
                                     }`}
                                 >
                                     {option.label}
@@ -132,7 +132,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                                     key={option.value}
                                     onClick={() => handleWordCountChange(option.value)}
                                     className={`px-3 py-1 rounded-md transition-colors ${
-                                        wordCount === option.value ? 'bg-gray-700 text-white' : 'text-gray-400 hover:bg-gray-800'
+                                        wordCount === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
                                     }`}
                                 >
                                     {option.label}
@@ -148,7 +148,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                                     key={option.value}
                                     onClick={() => handleDifficultyChange(option.value)}
                                     className={`px-3 py-1 rounded-md transition-colors ${
-                                        difficulty === option.value ? 'bg-gray-700 text-white' : 'text-gray-400 hover:bg-gray-800'
+                                        difficulty === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
                                     }`}
                                 >
                                     {option.label}
