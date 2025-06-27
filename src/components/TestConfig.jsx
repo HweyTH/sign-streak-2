@@ -7,25 +7,12 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
     const [time, setTime] = useState('60');
     const [wordCount, setWordCount] = useState(25);
     const [difficulty, setDifficulty] = useState('medium');
-
-    // default dropdown to time
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const [previousDropdown, setPreviousDropdown] = useState(null);
     const [activeDropdown, setActiveDropdown] = useState('time');
 
     const dropdownRefs = useRef({});
-
-    // Close dropdown when clicking outside
-    // useEffect(() => {
-    //     const handleClickOutside = (event) => {
-    //         if (activeDropdown && dropdownRefs.current[activeDropdown] && !dropdownRefs.current[activeDropdown].contains(event.target)) {
-    //             setActiveDropdown(null);
-    //         }
-    //     };
-
-    //     document.addEventListener('mousedown', handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener('mousedown', handleClickOutside);
-    //     }
-    // }, [activeDropdown])
+    const optionsContainerRef = useRef(null);
 
     // Handle test time configuration
     const handleTimeChange = (newTime) => {
@@ -51,7 +38,17 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
 
     // Toggle Dropdown
     const toggleDropdown = (dropdown) => {
-        setActiveDropdown(dropdown);
+        if (activeDropdown) {
+            setIsTransitioning(true);
+            setPreviousDropdown(activeDropdown);
+            setTimeout(() => {
+                setActiveDropdown(dropdown);
+                setIsTransitioning(false);
+                setPreviousDropdown(null);
+            }, 150);
+        } else {
+            setActiveDropdown(dropdown);
+        }
     }
 
     const timeOptions = [
@@ -77,8 +74,8 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
     ]
 
     return (
-        <div className="flex items-center space-x-4 mb-6 rounded-lg p-1 border border-gray-700/50"> 
-            <div className="relative flex space-x-2" ref={(el) => dropdownRefs.current['time'] = el}>
+        <div className="flex items-center space-x-4 mb-6 rounded-lg p-3 border border-gray-700/50"> 
+            <div className="relative flex items-center space-x-2" ref={(el) => dropdownRefs.current['time'] = el}>
                 {/* Time Dropdown */}
                 <button
                     onClick={() => toggleDropdown('time')}
@@ -106,56 +103,65 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                     <span className="text-gray-300 text-xs">Difficulty</span>
                 </button>
 
-                <div className="h-10 border-l border-gray-600"></div>
+                <div className="h-8 border-l border-gray-600"></div>
 
-                <div className="flex items-center space-x-2">
-                    {activeDropdown === 'time' && (
-                        <div>
-                            {timeOptions.map((option) => (
-                                <button
-                                    key={option.value}
-                                    onClick={() => handleTimeChange(option.value)}
-                                    className={`px-3 py-1 rounded-md transition-colors ${
-                                        time === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
-                                    }`}
-                                >
-                                    {option.label}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                <div
+                    ref={optionsContainerRef}
+                    className={`overflow-hidden transition-all duration-150 ease-in-out
+                        ${activeDropdown ? 'w-auto opacity-100' : 'w-0 opacity-0'
+                        }`}
+                >
+                    <div className={`flex items-center space-x-3 transition-transform duration-150 ease-in-out
+                        ${isTransitioning ? 'transform translate-x-full' : 'translate-x-0'}
+                        `}>
+                        {activeDropdown === 'time' && (
+                            <div>
+                                {timeOptions.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        onClick={() => handleTimeChange(option.value)}
+                                        className={`px-3 py-1 rounded-md transition-colors ${
+                                            time === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
+                                        }`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
 
-                    {activeDropdown === 'wordCount' && (
-                        <div>
-                            {wordCountOptions.map((option) => (
-                                <button
-                                    key={option.value}
-                                    onClick={() => handleWordCountChange(option.value)}
-                                    className={`px-3 py-1 rounded-md transition-colors ${
-                                        wordCount === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
-                                    }`}
-                                >
-                                    {option.label}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                        {activeDropdown === 'wordCount' && (
+                            <div>
+                                {wordCountOptions.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        onClick={() => handleWordCountChange(option.value)}
+                                        className={`px-3 py-1 rounded-md transition-colors ${
+                                            wordCount === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
+                                        }`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
 
-                    {activeDropdown === 'difficulty' && (
-                        <div>
-                            {difficultyOptions.map((option) => (
-                                <button
-                                    key={option.value}
-                                    onClick={() => handleDifficultyChange(option.value)}
-                                    className={`px-3 py-1 rounded-md transition-colors ${
-                                        difficulty === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
-                                    }`}
-                                >
-                                    {option.label}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                        {activeDropdown === 'difficulty' && (
+                            <div>
+                                {difficultyOptions.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        onClick={() => handleDifficultyChange(option.value)}
+                                        className={`px-3 py-1 rounded-md transition-colors ${
+                                            difficulty === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
+                                        }`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
