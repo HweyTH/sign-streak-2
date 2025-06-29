@@ -20,7 +20,8 @@ export default function RootLayout ({ children }) {
       <body className={`${jetbrainsMono.className} bg-black text-white`}>
         <div className={"min-h-screen flex flex-col"}>
           <Header />
-          <main className="flex-grow flex items-center justify-center px-4">
+          <div className="h-8"></div>
+          <main className="flex-grow flex px-4">
             {children}
           </main>
           <Footer />

@@ -32,12 +32,6 @@ export default function TypingTest() {
     };
     useEffect(loadNewTest, []);
 
-    // Handle Test Config Changes
-    const handleConfigChange = (newConfig) => {
-        setConfig(newConfig);
-        loadNewTest();
-    };
-
     // Handle User Typing
     const handleChange = (e) => {
         const val = e.target.value.replace(/\r?\n/g, '');
@@ -59,10 +53,6 @@ export default function TypingTest() {
         }
     };
 
-    // handle extreme mode
-    const handleExtremeMode = () => {
-        setIsExtremeMode(true);
-    }
 
     // handle game over (extreme mode)
     const handleGameOver = (finalScore) => {
@@ -76,13 +66,6 @@ export default function TypingTest() {
 
     return (
         <div className="w-full max-w-5xl mx-auto">
-            <div className="flex justify-left">
-                <TestConfig 
-                onConfigChange={handleConfigChange} 
-                onExtremeMode={handleExtremeMode}
-                />
-            </div>
-
             <div className="relative">
                 <pre className="font-mono text-lg whitespace-pre-wrap break-words overflow-hidden">
                     {prompt.split('').map((char, i) => {

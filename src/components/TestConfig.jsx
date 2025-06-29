@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { ClockIcon, PencilIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
+import { Clock, Locate, Hash, Settings2, Swords} from "lucide-react";
 
 export default function TestConfig({ onConfigChange, onExtremeMode }) {
     const [source, setSource] = useState('random');
@@ -66,10 +66,10 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
     ]
 
     const timeOptions = [
-        {value: '15', label: '15'},
-        {value: '30', label: '30'},
-        {value: '60', label: '60'},
-        {value: '120', label: '120'},
+        {value: '30', label: '30s'},
+        {value: '60', label: '60s'},
+        {value: '180', label: '180s'},
+        {value: '300', label: '300s'},
         {value: 'infinite', label: '∞'},
     ]
 
@@ -84,7 +84,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
         {value: 'easy', label: 'Gental Gale'},
         {value: 'medium', label: 'Balanced Trial'},
         {value: 'hard', label: 'Iron Oath'},
-        {value: 'insane', label: 'Wyrm Wrath'}
+        {value: 'insane', label: 'Wyrm Wrath', icon: Swords}
     ]
 
     return (
@@ -93,36 +93,36 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                 {/* Source Dropdown */}
                 <button
                     onClick={() => toggleDropdown('source')}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
+                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
                 >
-                    <ClockIcon className="w-4 h-4 text-gray-400"/>
+                    <Locate className="w-4 h-4 text-gray-400"/>
                     <span className="text-gray-300 text-xs">Source</span>
                 </button>
 
                 {/* Time Dropdown */}
                 <button
                     onClick={() => toggleDropdown('time')}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
+                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
                 >
-                    <ClockIcon className="w-4 h-4 text-gray-400"/>
+                    <Clock className="w-4 h-4 text-gray-400"/>
                     <span className="text-gray-300 text-xs">Time</span>
                 </button>
                 
                 {/* Word Count Dropdown */}
                 <button
                     onClick={() => toggleDropdown('wordCount')}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
+                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
                 >
-                    <PencilIcon className="w-4 h-4 text-gray-400"/>
+                    <Hash className="w-4 h-4 text-gray-400"/>
                     <span className="text-gray-300 text-xs">Word Count</span>
                 </button>
 
                 {/* Difficulty Level Dropdown */}
                 <button
                     onClick={() => toggleDropdown('difficulty')}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
+                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
                 >
-                    <AdjustmentsVerticalIcon className="w-4 h-4 text-gray-400"/>
+                    <Settings2 className="w-4 h-4 text-gray-400"/>
                     <span className="text-gray-300 text-xs">Difficulty</span>
                 </button>
 
@@ -196,7 +196,10 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                                             difficulty === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
                                         }`}
                                     >
-                                        {option.label}
+                                        <div className="flex items-center space-x-2">
+                                            {option.icon && <option.icon style={{width: '12px', height: '12px'}}/>}
+                                            <span className="text-xs">{option.label}</span>
+                                        </div>
                                     </button>
                                 ))}
                             </div>

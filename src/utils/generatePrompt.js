@@ -1,3 +1,6 @@
+import { getRandomWords } from '../content/randomWord';
+
+
 const samples = [
     "I need to write several sentences for testing", 
     "But I don't know what to write", 
@@ -10,7 +13,7 @@ const samples = [
     "Learning to type quickly and accurately takes time and practice, but the effort is well worth it. With each session, your fingers become more familiar with the keyboard, and your confidence grows as you watch your progress improve."
 ];
 
-export default function generatePrompt(source = 'random') {
+export default function generatePrompt(source = 'random', difficulty = 'medium', wordCount = '25') {
     switch (source) {
         case 'quotes':
             return;
@@ -19,6 +22,7 @@ export default function generatePrompt(source = 'random') {
         case 'custom':
             return;
         case 'random':
+            
         default: 
             return samples[Math.floor(Math.random()*samples.length)];
     }

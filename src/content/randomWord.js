@@ -80,10 +80,13 @@ const wordDictionary = {
 
     // function to get a random word from a specific difficulty level
     export const getRandomWords = (difficulty = 'medium', count = 10) => {
-        const words = wordDictionary[difficulty];
-        return words;
+        const words = wordDictionary[difficulty] || wordDictionary.medium;
+        const shuffled = [...words].sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, count);
     }
 
-    // function to get a random phrases
+    // TO-DO: Add a function to get a random phrase
+
+    // TO-DO: Add a function to get from a random category
 
 export default wordDictionary;
