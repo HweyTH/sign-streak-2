@@ -10,6 +10,16 @@ const samples = [
     "Learning to type quickly and accurately takes time and practice, but the effort is well worth it. With each session, your fingers become more familiar with the keyboard, and your confidence grows as you watch your progress improve."
 ];
 
-export default function generatePrompt() {
-    return samples[Math.floor(Math.random()*samples.length)];
+export default function generatePrompt(source = 'random') {
+    switch (source) {
+        case 'quotes':
+            return;
+        case 'code':
+            return;
+        case 'custom':
+            return;
+        case 'random':
+        default: 
+            return samples[Math.floor(Math.random()*samples.length)];
+    }
 }

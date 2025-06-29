@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import generatePrompt from "./generatePrompt";
+import generatePrompt from "../utils/generatePrompt";
 import TestConfig from "./TestConfig";
 import ExtremeMode from "./ExtremeMode";
 

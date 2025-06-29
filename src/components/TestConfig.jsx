@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { ClockIcon, PencilIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 
 export default function TestConfig({ onConfigChange, onExtremeMode }) {
+    const [source, setSource] = useState('random');
     const [time, setTime] = useState('60');
     const [wordCount, setWordCount] = useState(25);
     const [difficulty, setDifficulty] = useState('medium');
@@ -14,16 +15,22 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
     const dropdownRefs = useRef({});
     const optionsContainerRef = useRef(null);
 
+    // Handle source configuration
+    const handleSourceChange = (newSource) => {
+        setSource(newSource);
+        onConfigChange({ source: newSource, time, wordCount, difficulty});
+    }
+
     // Handle test time configuration
     const handleTimeChange = (newTime) => {
         setTime(newTime);
-        onConfigChange({ time: newTime, wordCount, difficulty});
+        onConfigChange({ source, time: newTime, wordCount, difficulty});
     }
 
     // Handle word count configuration
     const handleWordCountChange = (newWordCount) => {
         setWordCount(newWordCount);
-        onConfigChange({ time, wordCount: newWordCount, difficulty});
+        onConfigChange({ source, time, wordCount: newWordCount, difficulty});
     }
 
     // Handle difficulty configuration
@@ -32,7 +39,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
         if (newDifficulty === 'insane') {
             onExtremeMode();
         } else {
-            onConfigChange({ time, wordCount, difficulty: newDifficulty});
+            onConfigChange({ source, time, wordCount, difficulty: newDifficulty});
         }
     }
 
@@ -50,6 +57,13 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
             setActiveDropdown(dropdown);
         }
     }
+
+    const sourceOptions = [
+        {value: 'random', label: 'Random'}, 
+        {value: 'quotes', label: 'Quotes'},
+        {value: 'code', label: 'Code'},
+        {value: 'custom', label: 'Custom'},
+    ]
 
     const timeOptions = [
         {value: '15', label: '15'},
@@ -76,6 +90,15 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
     return (
         <div className="flex items-center space-x-4 mb-6 rounded-lg p-3 border border-gray-700/50"> 
             <div className="relative flex items-center space-x-2" ref={(el) => dropdownRefs.current['time'] = el}>
+                {/* Source Dropdown */}
+                <button
+                    onClick={() => toggleDropdown('source')}
+                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors"
+                >
+                    <ClockIcon className="w-4 h-4 text-gray-400"/>
+                    <span className="text-gray-300 text-xs">Source</span>
+                </button>
+
                 {/* Time Dropdown */}
                 <button
                     onClick={() => toggleDropdown('time')}
@@ -114,6 +137,23 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                     <div className={`flex items-center space-x-3 transition-transform duration-150 ease-in-out
                         ${isTransitioning ? 'transform translate-x-full' : 'translate-x-0'}
                         `}>
+
+                        {activeDropdown === 'source' && (
+                            <div>
+                                {sourceOptions.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        onClick={() => handleSourceChange(option.value)}
+                                        className={`px-3 py-1 rounded-md transition-colors ${
+                                            source === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
+                                        }`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                            
                         {activeDropdown === 'time' && (
                             <div>
                                 {timeOptions.map((option) => (
