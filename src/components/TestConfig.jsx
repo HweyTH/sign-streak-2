@@ -5,6 +5,7 @@ import { Clock, Locate, Languages, Hash, Settings2, Swords, RotateCcw, Play, Cir
 
 export default function TestConfig({ onConfigChange, onExtremeMode }) {
     const [source, setSource] = useState('random');
+    const [language, setLanguage] = useState('end');
     const [time, setTime] = useState('60');
     const [wordCount, setWordCount] = useState(25);
     const [difficulty, setDifficulty] = useState('medium');
@@ -116,7 +117,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
 
                     {/* Language Dropdown */}
                     <button
-                        onClick={() => toggleDropdown('source')}
+                        onClick={() => toggleDropdown('language')}
                         className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
                     >
                         <Languages className="w-4 h-4 text-gray-400"/>
@@ -175,6 +176,22 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
                                                 onClick={() => handleSourceChange(option.value)}
                                                 className={`px-3 py-1 rounded-md transition-colors ${
                                                     source === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {activeDropdown === 'language'  && (
+                                    <div className="flex items-center space-x-2 justify-center">
+                                        {languageOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => handleLanguageChange(option.value)}
+                                                className={`px-3 py-1 rounded-md transition-colors ${
+                                                    language === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
                                                 }`}
                                             >
                                                 {option.label}
