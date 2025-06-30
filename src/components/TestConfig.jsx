@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Clock, Locate, Hash, Settings2, Swords} from "lucide-react";
+import { Clock, Locate, Languages, Hash, Settings2, Swords, RotateCcw, Play, CircleQuestionMark} from "lucide-react";
 
 export default function TestConfig({ onConfigChange, onExtremeMode }) {
     const [source, setSource] = useState('random');
@@ -19,6 +19,12 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
     const handleSourceChange = (newSource) => {
         setSource(newSource);
         onConfigChange({ source: newSource, time, wordCount, difficulty});
+    }
+
+    // Handle language configuration
+    const handleLanguageChange = (newLanguage) => {
+        setLanguage(newLanguage);
+        onConfigChange({ source, time, wordCount, difficulty, language: newLanguage});
     }
 
     // Handle test time configuration
@@ -65,6 +71,13 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
         {value: 'custom', label: 'Custom'},
     ]
 
+    const languageOptions = [
+        {value: 'en', label: 'English'},
+        {value: 'es', label: 'Spanish'},
+        {value: 'fr', label: 'French'},
+        {value: 'vi', label: 'Vietnamese'},
+    ]
+
     const timeOptions = [
         {value: '30', label: '30s'},
         {value: '60', label: '60s'},
@@ -78,6 +91,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
         {value: '25', label: '25'},
         {value: '50', label: '50'},
         {value: '100', label: '100'},
+        {value: '200', label: '200'},
     ]
     
     const difficultyOptions = [
@@ -88,122 +102,156 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
     ]
 
     return (
-        <div className="flex items-center space-x-4 mb-6 rounded-lg p-3 border border-gray-700/50"> 
-            <div className="relative flex items-center space-x-2" ref={(el) => dropdownRefs.current['time'] = el}>
-                {/* Source Dropdown */}
-                <button
-                    onClick={() => toggleDropdown('source')}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
-                >
-                    <Locate className="w-4 h-4 text-gray-400"/>
-                    <span className="text-gray-300 text-xs">Source</span>
-                </button>
+        <div className="mb-6 rounded-lg p-3 border border-gray-700/50"> 
+            <div className="flex items-center">
+                <div className="flex items-center space-x-2" ref={(el) => dropdownRefs.current['source'] = el}>
+                    {/* Source Dropdown */}
+                    <button
+                        onClick={() => toggleDropdown('source')}
+                        className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
+                    >
+                        <Locate className="w-4 h-4 text-gray-400"/>
+                        <span className="text-gray-300 text-xs">Source</span>
+                    </button>
 
-                {/* Time Dropdown */}
-                <button
-                    onClick={() => toggleDropdown('time')}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
-                >
-                    <Clock className="w-4 h-4 text-gray-400"/>
-                    <span className="text-gray-300 text-xs">Time</span>
-                </button>
-                
-                {/* Word Count Dropdown */}
-                <button
-                    onClick={() => toggleDropdown('wordCount')}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
-                >
-                    <Hash className="w-4 h-4 text-gray-400"/>
-                    <span className="text-gray-300 text-xs">Word Count</span>
-                </button>
+                    {/* Language Dropdown */}
+                    <button
+                        onClick={() => toggleDropdown('source')}
+                        className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
+                    >
+                        <Languages className="w-4 h-4 text-gray-400"/>
+                        <span className="text-gray-300 text-xs">Language</span>
+                    </button>
 
-                {/* Difficulty Level Dropdown */}
-                <button
-                    onClick={() => toggleDropdown('difficulty')}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
-                >
-                    <Settings2 className="w-4 h-4 text-gray-400"/>
-                    <span className="text-gray-300 text-xs">Difficulty</span>
-                </button>
+                    {/* Time Dropdown */}
+                    <button
+                        onClick={() => toggleDropdown('time')}
+                        className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
+                    >
+                        <Clock className="w-4 h-4 text-gray-400"/>
+                        <span className="text-gray-300 text-xs">Time</span>
+                    </button>
+                    
+                    {/* Word Count Dropdown */}
+                    <button
+                        onClick={() => toggleDropdown('wordCount')}
+                        className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
+                    >
+                        <Hash className="w-4 h-4 text-gray-400"/>
+                        <span className="text-gray-300 text-xs">Word Count</span>
+                    </button>
 
-                <div className="h-8 border-l border-gray-600"></div>
+                    {/* Difficulty Level Dropdown */}
+                    <button
+                        onClick={() => toggleDropdown('difficulty')}
+                        className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-600 transition-colors cursor-pointer"
+                    >
+                        <Settings2 className="w-4 h-4 text-gray-400"/>
+                        <span className="text-gray-300 text-xs">Difficulty</span>
+                    </button>
 
-                <div
-                    ref={optionsContainerRef}
-                    className={`overflow-hidden transition-all duration-150 ease-in-out
-                        ${activeDropdown ? 'w-auto opacity-100' : 'w-0 opacity-0'
-                        }`}
-                >
-                    <div className={`flex items-center space-x-3 transition-transform duration-150 ease-in-out
-                        ${isTransitioning ? 'transform translate-x-full' : 'translate-x-0'}
-                        `}>
 
-                        {activeDropdown === 'source' && (
-                            <div>
-                                {sourceOptions.map((option) => (
-                                    <button
-                                        key={option.value}
-                                        onClick={() => handleSourceChange(option.value)}
-                                        className={`px-3 py-1 rounded-md transition-colors ${
-                                            source === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
-                                        }`}
-                                    >
-                                        {option.label}
-                                    </button>
-                                ))}
+                    {/* Divider */}
+                    <div className="h-8 border-l border-gray-600 mx-4"></div>
+
+                    {/* Options Container */}
+                    <div className="relative">
+                        <div
+                            ref={optionsContainerRef}
+                            className={`overflow-hidden transition-all duration-150 ease-in-out
+                                ${activeDropdown ? 'w-auto opacity-100' : 'w-0 opacity-0'
+                                }`}
+                            style={{width: '485px'}}
+                        >
+                            <div className={`flex items-center justify-center space-x-3 transition-transform duration-150 ease-in-out
+                                ${isTransitioning ? 'transform translate-x-full' : 'translate-x-0'}
+                                `}>
+
+                                {activeDropdown === 'source'  && (
+                                    <div className="flex items-center space-x-2 justify-center">
+                                        {sourceOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => handleSourceChange(option.value)}
+                                                className={`px-3 py-1 rounded-md transition-colors ${
+                                                    source === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                                    
+                                {activeDropdown === 'time' && (
+                                    <div className="flex items-center space-x-2 justify-center">
+                                        {timeOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => handleTimeChange(option.value)}
+                                                className={`px-3 py-1 rounded-md transition-colors ${
+                                                    time === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {activeDropdown === 'wordCount' && (
+                                    <div className="flex items-center space-x-2 justify-center">
+                                        {wordCountOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => handleWordCountChange(option.value)}
+                                                className={`px-3 py-1 rounded-md transition-colors ${
+                                                    wordCount === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {activeDropdown === 'difficulty' && (
+                                    <div className="flex items-center space-x-2 justify-center">
+                                        {difficultyOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => handleDifficultyChange(option.value)}
+                                                className={`px-3 py-1 rounded-md transition-colors ${
+                                                    difficulty === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
+                                                }`}
+                                            >
+                                                <div className="flex items-center space-x-2">
+                                                    {option.icon && <option.icon style={{width: '11px', height: '11px'}}/>}
+                                                    <span className="text-xs">{option.label}</span>
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
-                        )}
-                            
-                        {activeDropdown === 'time' && (
-                            <div>
-                                {timeOptions.map((option) => (
-                                    <button
-                                        key={option.value}
-                                        onClick={() => handleTimeChange(option.value)}
-                                        className={`px-3 py-1 rounded-md transition-colors ${
-                                            time === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
-                                        }`}
-                                    >
-                                        {option.label}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
+                        </div>
+                    </div>
 
-                        {activeDropdown === 'wordCount' && (
-                            <div>
-                                {wordCountOptions.map((option) => (
-                                    <button
-                                        key={option.value}
-                                        onClick={() => handleWordCountChange(option.value)}
-                                        className={`px-3 py-1 rounded-md transition-colors ${
-                                            wordCount === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
-                                        }`}
-                                    >
-                                        {option.label}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
+                    {/* Divider */}
+                    <div className="h-8 border-l border-gray-600"></div>
 
-                        {activeDropdown === 'difficulty' && (
-                            <div>
-                                {difficultyOptions.map((option) => (
-                                    <button
-                                        key={option.value}
-                                        onClick={() => handleDifficultyChange(option.value)}
-                                        className={`px-3 py-1 rounded-md transition-colors ${
-                                            difficulty === option.value ? 'border-2 border-white text-white text-xs' : 'text-gray-400 text-xs hover:bg-gray-800'
-                                        }`}
-                                    >
-                                        <div className="flex items-center space-x-2">
-                                            {option.icon && <option.icon style={{width: '12px', height: '12px'}}/>}
-                                            <span className="text-xs">{option.label}</span>
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        )}
+                    <div className="flex items-center space-x-2">
+                        <button className="p-2 rounded-md text-gray-400 hover:bg-gray-800 transition-colors">
+                            <RotateCcw className="w-4 h-4"/>
+                        </button>
+
+                        <button className="p-2 rounded-md text-gray-400 hover:bg-gray-800 transition-colors">
+                            <CircleQuestionMark className="w-4 h-4"/>
+                        </button>
+
+                        <button className="p-2 rounded-md text-gray-400 hover:bg-gray-800 transition-colors">
+                            <Play className="w-4 h-4"/>
+                        </button>
                     </div>
                 </div>
             </div>
