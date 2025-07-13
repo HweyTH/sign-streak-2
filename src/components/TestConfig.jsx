@@ -103,7 +103,7 @@ export default function TestConfig({ onConfigChange, onExtremeMode }) {
     ]
 
     return (
-        <div className="mb-6 rounded-lg p-3 border border-gray-700/50"> 
+        <div className="mb-6 rounded-lg p-3 border border-gray-700/50 overflow-hidden"> 
             <div className="flex items-center">
                 <div className="flex items-center space-x-2" ref={(el) => dropdownRefs.current['source'] = el}>
                     {/* Source Dropdown */}
