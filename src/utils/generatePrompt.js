@@ -22,6 +22,17 @@ export default function generatePrompt(source = 'random', difficulty = 'medium',
         case 'custom':
             return;
         case 'random':
+            const selectedSample = samples[Math.floor(Math.random()*samples.length)];
+            
+            if (difficulty === 'easy') {
+                return selectedSample.split(' ').slice(0, Math.min(10, selectedSample.split(' ').length)).join(' ');
+            } else if (difficulty === 'medium') {
+                return selectedSample.split(' ').slice(0, Math.min(25, selectedSample.split(' ').length)).join(' ');
+            } else if (difficulty === 'hard') {
+                return selectedSample.split(' ').slice(0, Math.min(50, selectedSample.split(' ').length)).join(' ');
+            } else if (difficulty === 'insane') {
+                return selectedSample;
+            }
             
         default: 
             return samples[Math.floor(Math.random()*samples.length)];

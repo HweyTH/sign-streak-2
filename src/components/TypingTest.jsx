@@ -22,7 +22,7 @@ export default function TypingTest() {
 
     // Load or Restart Test
     const loadNewTest = () => {
-        setPrompt(generatePrompt());
+        setPrompt(generatePrompt('random', config.difficulty, config.wordCount));
         setInput('');
         setStartTime(null);
         setWpm(0);
@@ -30,7 +30,7 @@ export default function TypingTest() {
         setFinished(false);
         setTimeout(() => textareaRef.current?.focus(), 0);
     };
-    useEffect(loadNewTest, []);
+    useEffect(loadNewTest, [config]);
 
     // Handle User Typing
     const handleChange = (e) => {
@@ -60,12 +60,23 @@ export default function TypingTest() {
         // TODO: Make a modal to show the final score and leaderboard ranking
     }
 
+    // handle config changes
+    const handleConfigChange = (newConfig) => {
+        setConfig(newConfig);
+    }
+
+    // handle extreme mode
+    const handleExtremeMode = () => {
+        setIsExtremeMode(true);
+    }
+
     if (isExtremeMode) {
         return <ExtremeMode onGameOver={handleGameOver} />;
     }
 
     return (
         <div className="w-full max-w-5xl mx-auto">
+            <TestConfig onConfigChange={handleConfigChange} onExtremeMode={handleExtremeMode} />
             <div className="relative">
                 <pre className="font-mono text-lg whitespace-pre-wrap break-words overflow-hidden">
                     {prompt.split('').map((char, i) => {
