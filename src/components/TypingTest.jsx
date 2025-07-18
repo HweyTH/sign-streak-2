@@ -76,7 +76,6 @@ export default function TypingTest() {
 
     return (
         <div className="w-full max-w-5xl mx-auto">
-            <TestConfig onConfigChange={handleConfigChange} onExtremeMode={handleExtremeMode} />
             <div className="relative">
                 <pre className="font-mono text-lg whitespace-pre-wrap break-words overflow-hidden">
                     {prompt.split('').map((char, i) => {
