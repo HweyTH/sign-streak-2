@@ -86,6 +86,16 @@ const wordDictionary = {
     }
 
     // TO-DO: Add a function to get a random phrase
+    export const getRandomPhrases = (count = 10) => {
+      const phrases = wordDictionary.phrases;
+      const shuffled = [...phrases].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, count);
+    }
+
+    // TO-DO: Add a function to get a random quote
+    export const getRandomQuotes = (source = 'quotes') => {
+       
+    }
 
     // TO-DO: Add a function to get from a random category
 

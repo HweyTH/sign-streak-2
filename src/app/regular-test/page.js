@@ -12,7 +12,6 @@ export default function RegularTestPage() {
     })
     const [isExtremeMode, setIsExtremeMode] = useState(false);
 
-
     const handleConfigChange = (newConfig) => {
         setConfig(newConfig);
     }
@@ -31,7 +30,7 @@ export default function RegularTestPage() {
             </div>
 
             <div className='flex-1 flex items-center justify-center'>
-                <TypingTest />
+                <TypingTest config={config}/>
             </div>
             
         </div>
