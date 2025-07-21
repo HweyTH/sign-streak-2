@@ -94,7 +94,9 @@ const wordDictionary = {
 
     // TO-DO: Add a function to get a random quote
     export const getRandomQuotes = (source = 'quotes') => {
-       
+       const phrases = wordDictionary.quotes;
+       const randomIndex = Math.floor(Math.random() * phrases.length);
+       return phrases[randomIndex];
     }
 
     // TO-DO: Add a function to get from a random category
