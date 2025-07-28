@@ -109,7 +109,7 @@ export default function TypingTest() {
     return (
         <div className="w-full max-w-5xl mx-auto">
             {/* Timer Display */}
-            {config.time !== 'infinite' && startTime && !finished && (
+            {/* {config.time !== 'infinite' && startTime && !finished && (
                 <div className="mb-4 flex justify-center">
                     <div className={`text-2xl font-mono font-bold px-6 py-2 rounded-lg ${
                         timeLeft <= 10 ? 'text-red-500 bg-red-500/10' : 
@@ -119,7 +119,7 @@ export default function TypingTest() {
                         {formatTime(timeLeft)}
                     </div>
                 </div>
-            )}
+            )} */}
 
             <div className="relative">
                 <pre className="font-mono text-lg whitespace-pre-wrap break-words overflow-hidden">
